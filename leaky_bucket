@@ -1,0 +1,30 @@
+//leaky bucket
+#include<stdio.h>
+#include<stdlib.h>
+#include<stdbool.h>
+#include<unistd.h>
+int main()
+
+#define OUTPUTE_RATE 1
+{
+    int bucket_capacity;
+    printf("enter the bucket capacity");
+    scanf("%d",&bucket_capacity);
+    int bucket_size=0;
+    while(true){
+        int incoming_packet=rand()%5;
+        printf("incoming %d\n",incoming_packet);
+        bucket_size+=incoming_packet;
+    
+    if (bucket_size > bucket_capacity){
+      printf("%d dropped packets\n",bucket_size-bucket_capacity);
+      bucket_size=bucket_capacity;
+    } 
+    if (bucket_size > 0) {
+    int outgoing_packet=bucket_size<OUTPUTE_RATE? bucket_size:OUTPUTE_RATE;
+        printf("outgoing %d\n",outgoing_packet);
+        bucket_size-=outgoing_packet;
+    }
+    sleep(1);
+    }
+}
