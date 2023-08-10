@@ -4,7 +4,7 @@
 #include<sys/socket.h>
 #include<unistd.h>
 #include<netdb.h>
-
+#include<stdio.h>
 
 
 int main()
@@ -36,22 +36,24 @@ int main()
     while(1)
     {
         k=recfrom(sock_desc,buf,100,0,(struct sockaddr*)&client,&len);
-        if(k<0)
+        if(k<0){
           printf("error in recieving");
           return 1;
-          
+        } 
         int c= atoi(buf);
         if (c==1111)
         {
             printf("exiting...");
             break;
         }
-        printf("message got from client");
-        
-        sprintf(buf,"%d",flag);
+        printf("message got from client%s",buf);
+         printf("enter data to be send to client");
+         fgets(buf,100,stdin);
         k=sento(sock_desc,buf,100,0,(struct sockaddr*)&client,&sizeof(client));
+        {
         if(k<0)
          printf("error in sending")
          return 1;
+        }
     }
 }
